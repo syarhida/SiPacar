@@ -6,6 +6,18 @@ Aplikasi Android untuk menampilkan prakiraan cuaca Jakarta dengan interface yang
 
 **SiPacar** (Sistem Prakiraan Cuaca Ringkas) adalah aplikasi prakiraan cuaca untuk wilayah Jakarta yang menampilkan informasi cuaca per jam dengan antarmuka yang clean dan mudah digunakan.
 
+## 📸 Preview
+
+![Preview](assets/preview-1.jpeg) ![Preview](assets/preview-2.jpeg) ![Preview](assets/preview-3.jpeg)
+
+## ⬇️ Download
+
+Initial release (v1.0) sudah dapat di unduh
+
+[![GitHub release (v1.0.0)](https://img.shields.io/badge/Download-v1.0.0-0077c9?style=for-the-badge&logo=android)](https://github.com/syarhida/SiPacar/releases/tag/v1.0)
+
+
+
 ### Fitur Utama
 
 - 🌡️ Menampilkan suhu realtime dengan card besar
@@ -45,13 +57,6 @@ com.syarhida.sipacar
         └── WeatherViewModel.kt
 ```
 
-## 🚀 Cara Menjalankan
-
-1. Clone repository ini
-2. Buka project di Android Studio
-3. Sync Gradle
-4. Run aplikasi di emulator atau device fisik
-5. Pastikan device memiliki koneksi internet
 
 ## 📋 Requirements
 
@@ -70,7 +75,7 @@ https://api.open-meteo.com/v1/forecast?latitude=-6.2&longitude=106.8&hourly=temp
 **Parameter API:**
 - `latitude=-6.2` & `longitude=106.8` - Koordinat Jakarta
 - `hourly=temperature_2m,relative_humidity_2m,weathercode` - Data suhu, kelembapan, dan kode cuaca per jam
-- `forecast_days=7` - Prakiraan 7 hari (diambil 4 hari pertama)
+- `forecast_days=7` - Prakiraan 7 hari
 
 ## 📝 Lisensi
 
