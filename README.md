@@ -21,12 +21,11 @@ Initial release (v1.0) sudah dapat di unduh
 
 ## Fitur Utama
 
-- 🌡️ Menampilkan suhu realtime dengan card besar
+- 🌡️ Menampilkan suhu realtime
 - 🕐 **List cuaca per jam** dengan format Indonesia
 - 💧 Menampilkan **kelembapan** untuk setiap data cuaca
 - 🎨 UI Modern dengan tema Putih & Biru
 - 🔄 Pull-to-refresh untuk memperbarui data
-- 📱 Mobile responsive design
 
 ## 🛠️ Teknologi
 
@@ -81,12 +80,3 @@ https://api.open-meteo.com/v1/forecast?latitude=-6.2&longitude=106.8&hourly=temp
 ## 📝 Lisensi
 
 Project ini dibuat untuk keperluan Tugas 2 Mata Kuliah Pemrograman Berbasis Piranti Bergerak.
-
-## 👨‍💻 Developer
-
-Dibuat dengan ❤️ menggunakan Kotlin
-
----
-
-**SiPacar** - Prakiraan Cuaca Jakarta, Simple & Akurat! 🌤️
-
