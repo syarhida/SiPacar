@@ -110,6 +110,9 @@ class MainActivity : AppCompatActivity() {
                 binding.tvCurrentDesc.text = "Berawan"
                 binding.tvCurrentHumidity.text = card.humidity
                 
+                // Update label tanggal yang sedang ditampilkan
+                updateSelectedDateLabel(card)
+                
                 // Set icon
                 val iconRes = when (card.iconType) {
                     com.syarhida.sipacar.data.model.WeatherIconType.PAGI -> R.drawable.ic_weather_morning
@@ -138,6 +141,22 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, it, Toast.LENGTH_LONG).show()
                 viewModel.clearError()
             }
+        }
+    }
+    
+    /**
+     * Update label tanggal yang sedang ditampilkan
+     */
+    private fun updateSelectedDateLabel(card: com.syarhida.sipacar.data.model.DailyWeatherCard) {
+        if (card.isToday) {
+            // Hari ini: tampilkan dari jam sekarang
+            val currentTime = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
+            binding.tvSelectedDate.text = "Prakiraan Hari Ini"
+            binding.tvDateInfo.text = "Menampilkan dari jam $currentTime sampai 23:00"
+        } else {
+            // Hari lain: tampilkan semua jam
+            binding.tvSelectedDate.text = "Prakiraan ${card.date}"
+            binding.tvDateInfo.text = "Menampilkan dari jam 00:00 sampai 23:00"
         }
     }
 }
