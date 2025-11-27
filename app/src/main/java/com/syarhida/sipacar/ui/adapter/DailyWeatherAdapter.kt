@@ -1,0 +1,92 @@
+package com.syarhida.sipacar.ui.adapter
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.syarhida.sipacar.R
+import com.syarhida.sipacar.data.model.DailyWeatherCard
+import com.syarhida.sipacar.data.model.WeatherIconType
+import com.syarhida.sipacar.databinding.ItemDailyWeatherBinding
+
+/**
+ * Adapter untuk card cuaca harian (4 hari ke depan)
+ */
+class DailyWeatherAdapter : ListAdapter<DailyWeatherCard, DailyWeatherAdapter.ViewHolder>(DiffCallback()) {
+    
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = ItemDailyWeatherBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return ViewHolder(binding)
+    }
+    
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+    
+    class ViewHolder(
+        private val binding: ItemDailyWeatherBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+        
+        fun bind(item: DailyWeatherCard) {
+            // Set icon cuaca
+            val iconRes = when (item.iconType) {
+                WeatherIconType.PAGI -> R.drawable.ic_weather_morning
+                WeatherIconType.SIANG -> R.drawable.ic_weather_day
+                WeatherIconType.SORE -> R.drawable.ic_weather_evening
+                WeatherIconType.MALAM -> R.drawable.ic_weather_night
+            }
+            binding.ivWeatherIcon.setImageResource(iconRes)
+            
+            // Set text
+            binding.tvDate.text = item.date
+            binding.tvTemperature.text = item.temperature
+            binding.tvHumidity.text = item.humidity
+            
+            // Styling khusus untuk hari ini
+            if (item.isToday) {
+                binding.cardView.setCardBackgroundColor(
+                    ContextCompat.getColor(binding.root.context, R.color.primary)
+                )
+                binding.tvDate.setTextColor(
+                    ContextCompat.getColor(binding.root.context, android.R.color.white)
+                )
+                binding.tvTemperature.setTextColor(
+                    ContextCompat.getColor(binding.root.context, android.R.color.white)
+                )
+                binding.tvHumidity.setTextColor(
+                    ContextCompat.getColor(binding.root.context, android.R.color.white)
+                )
+            } else {
+                binding.cardView.setCardBackgroundColor(
+                    ContextCompat.getColor(binding.root.context, R.color.card_background)
+                )
+                binding.tvDate.setTextColor(
+                    ContextCompat.getColor(binding.root.context, R.color.text_primary)
+                )
+                binding.tvTemperature.setTextColor(
+                    ContextCompat.getColor(binding.root.context, R.color.text_primary)
+                )
+                binding.tvHumidity.setTextColor(
+                    ContextCompat.getColor(binding.root.context, R.color.text_secondary)
+                )
+            }
+        }
+    }
+    
+    private class DiffCallback : DiffUtil.ItemCallback<DailyWeatherCard>() {
+        override fun areItemsTheSame(oldItem: DailyWeatherCard, newItem: DailyWeatherCard): Boolean {
+            return oldItem.date == newItem.date
+        }
+        
+        override fun areContentsTheSame(oldItem: DailyWeatherCard, newItem: DailyWeatherCard): Boolean {
+            return oldItem == newItem
+        }
+    }
+}
+

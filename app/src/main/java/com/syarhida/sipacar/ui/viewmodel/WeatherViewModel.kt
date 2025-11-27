@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.syarhida.sipacar.data.model.WeatherItem
+import com.syarhida.sipacar.data.model.DailyWeatherCard
+import com.syarhida.sipacar.data.model.HourlyWeatherItem
 import com.syarhida.sipacar.data.repository.WeatherRepository
 import kotlinx.coroutines.launch
 
@@ -16,9 +17,13 @@ class WeatherViewModel : ViewModel() {
     
     private val repository = WeatherRepository()
     
-    // LiveData untuk daftar cuaca
-    private val _weatherList = MutableLiveData<List<WeatherItem>>()
-    val weatherList: LiveData<List<WeatherItem>> = _weatherList
+    // LiveData untuk card cuaca harian
+    private val _dailyWeatherCards = MutableLiveData<List<DailyWeatherCard>>()
+    val dailyWeatherCards: LiveData<List<DailyWeatherCard>> = _dailyWeatherCards
+    
+    // LiveData untuk list cuaca per jam
+    private val _hourlyWeatherItems = MutableLiveData<List<HourlyWeatherItem>>()
+    val hourlyWeatherItems: LiveData<List<HourlyWeatherItem>> = _hourlyWeatherItems
     
     // LiveData untuk status loading
     private val _isLoading = MutableLiveData<Boolean>()
@@ -37,13 +42,22 @@ class WeatherViewModel : ViewModel() {
             _errorMessage.value = null
             
             try {
-                val result = repository.getWeatherForecast()
-                
-                if (result.isSuccess) {
-                    _weatherList.value = result.getOrNull() ?: emptyList()
+                // Load daily weather cards
+                val dailyResult = repository.getDailyWeatherCards()
+                if (dailyResult.isSuccess) {
+                    _dailyWeatherCards.value = dailyResult.getOrNull() ?: emptyList()
                 } else {
                     _errorMessage.value = "Gagal memuat data. Periksa koneksi internet."
                 }
+                
+                // Load hourly weather items
+                val hourlyResult = repository.getHourlyWeatherItems()
+                if (hourlyResult.isSuccess) {
+                    _hourlyWeatherItems.value = hourlyResult.getOrNull() ?: emptyList()
+                } else {
+                    _errorMessage.value = "Gagal memuat data. Periksa koneksi internet."
+                }
+                
             } catch (e: Exception) {
                 _errorMessage.value = "Gagal memuat data. Periksa koneksi internet."
             } finally {
@@ -59,4 +73,3 @@ class WeatherViewModel : ViewModel() {
         _errorMessage.value = null
     }
 }
-

@@ -2,6 +2,11 @@
 <resources>
     <!-- Nama Aplikasi -->
     <string name="app_name">SiPacar</string>
+    <string name="app_name_full">SiPacar</string>
+    
+    <!-- Lokasi -->
+    <string name="location_label">Lokasi saat ini: Jakarta</string>
+    <string name="location_info">Sistem Prakiraan Cuaca Ringkas</string>
     
     <!-- Toolbar -->
     <string name="toolbar_title">SiPacar - Jakarta</string>

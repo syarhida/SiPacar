@@ -8,11 +8,17 @@ Aplikasi Android untuk menampilkan prakiraan cuaca Jakarta dengan interface yang
 
 ### Fitur Utama
 
-- 🌡️ Menampilkan suhu per jam dalam Celsius
-- 🕐 Format waktu dalam Bahasa Indonesia
-- 🎨 UI Modern dengan tema Putih & Biru
+- 🌡️ Menampilkan suhu realtime dengan card besar
+- 📅 **Card prakiraan 4 hari ke depan** (horizontal scroll)
+- 🕐 **List cuaca per jam** dengan format Indonesia
+- 💧 Menampilkan **kelembapan** untuk setiap data cuaca
+- ⏰ **Filter jam cerdas**: 
+  - Hari ini: menampilkan dari jam sekarang sampai 23:00
+  - Hari lain: menampilkan 00:00 - 23:00
+- 🎨 UI Modern dengan tema Putih & Biru (inspired by JAWIR)
 - 🌅 Icon cuaca berbeda untuk Pagi, Siang, Sore, dan Malam
 - 🔄 Pull-to-refresh untuk memperbarui data
+- 📱 Mobile responsive design
 - 📶 Error handling untuk koneksi internet
 
 ## 🛠️ Teknologi
@@ -78,12 +84,13 @@ com.syarhida.sipacar
 
 Aplikasi ini menggunakan [Open-Meteo Weather API](https://open-meteo.com/):
 ```
-https://api.open-meteo.com/v1/forecast?latitude=-6.2&longitude=106.8&hourly=temperature_2m
+https://api.open-meteo.com/v1/forecast?latitude=-6.2&longitude=106.8&hourly=temperature_2m,relative_humidity_2m&forecast_days=7
 ```
 
-Koordinat untuk Jakarta:
-- Latitude: -6.2
-- Longitude: 106.8
+**Parameter API:**
+- `latitude=-6.2` & `longitude=106.8` - Koordinat Jakarta
+- `hourly=temperature_2m,relative_humidity_2m` - Data suhu dan kelembapan per jam
+- `forecast_days=7` - Prakiraan 7 hari (diambil 4 hari pertama)
 
 ## 📝 Lisensi
 

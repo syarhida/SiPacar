@@ -8,8 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.syarhida.sipacar.R
 import com.syarhida.sipacar.databinding.ActivityMainBinding
-import com.syarhida.sipacar.ui.adapter.WeatherAdapter
+import com.syarhida.sipacar.ui.adapter.DailyWeatherAdapter
+import com.syarhida.sipacar.ui.adapter.HourlyWeatherAdapter
 import com.syarhida.sipacar.ui.viewmodel.WeatherViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Activity utama untuk menampilkan prakiraan cuaca Jakarta
@@ -18,7 +21,8 @@ class MainActivity : AppCompatActivity() {
     
     private lateinit var binding: ActivityMainBinding
     private val viewModel: WeatherViewModel by viewModels()
-    private lateinit var weatherAdapter: WeatherAdapter
+    private lateinit var dailyAdapter: DailyWeatherAdapter
+    private lateinit var hourlyAdapter: HourlyWeatherAdapter
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,11 +31,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         
-        // Setup Toolbar
-        setupToolbar()
-        
-        // Setup RecyclerView
-        setupRecyclerView()
+        // Setup RecyclerViews
+        setupRecyclerViews()
         
         // Setup Observers
         setupObservers()
@@ -39,30 +40,33 @@ class MainActivity : AppCompatActivity() {
         // Setup SwipeRefreshLayout
         setupSwipeRefresh()
         
+        // Update waktu saat ini
+        updateCurrentTime()
+        
         // Muat data cuaca pertama kali
         viewModel.loadWeatherData()
     }
     
     /**
-     * Setup Toolbar dengan judul dan subtitle
+     * Setup RecyclerViews untuk daily dan hourly forecast
      */
-    private fun setupToolbar() {
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.apply {
-            title = getString(R.string.toolbar_title)
-            subtitle = getString(R.string.toolbar_subtitle)
+    private fun setupRecyclerViews() {
+        // Daily forecast (horizontal)
+        dailyAdapter = DailyWeatherAdapter()
+        binding.rvDailyForecast.apply {
+            adapter = dailyAdapter
+            layoutManager = LinearLayoutManager(
+                this@MainActivity,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
         }
-    }
-    
-    /**
-     * Setup RecyclerView dengan adapter dan layout manager
-     */
-    private fun setupRecyclerView() {
-        weatherAdapter = WeatherAdapter()
-        binding.recyclerView.apply {
-            adapter = weatherAdapter
+        
+        // Hourly forecast (vertical)
+        hourlyAdapter = HourlyWeatherAdapter()
+        binding.rvHourlyForecast.apply {
+            adapter = hourlyAdapter
             layoutManager = LinearLayoutManager(this@MainActivity)
-            setHasFixedSize(true)
         }
     }
     
@@ -71,6 +75,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun setupSwipeRefresh() {
         binding.swipeRefreshLayout.setOnRefreshListener {
+            updateCurrentTime()
             viewModel.loadWeatherData()
         }
         
@@ -79,46 +84,56 @@ class MainActivity : AppCompatActivity() {
     }
     
     /**
+     * Update waktu saat ini
+     */
+    private fun updateCurrentTime() {
+        val currentTime = SimpleDateFormat("HH.mm.ss", Locale.getDefault()).format(Date())
+        binding.tvCurrentTime.text = "Jam saat ini: $currentTime WIB"
+    }
+    
+    /**
      * Setup observers untuk LiveData dari ViewModel
      */
     private fun setupObservers() {
-        // Observer untuk daftar cuaca
-        viewModel.weatherList.observe(this) { weatherList ->
-            weatherAdapter.submitList(weatherList)
+        // Observer untuk daily weather cards
+        viewModel.dailyWeatherCards.observe(this) { cards ->
+            dailyAdapter.submitList(cards)
             
-            // Tampilkan atau sembunyikan empty state
-            if (weatherList.isEmpty()) {
-                binding.tvEmptyState.visibility = View.VISIBLE
-                binding.recyclerView.visibility = View.GONE
-            } else {
-                binding.tvEmptyState.visibility = View.GONE
-                binding.recyclerView.visibility = View.VISIBLE
+            // Update current weather card dengan data hari ini (card pertama)
+            if (cards.isNotEmpty()) {
+                val today = cards[0]
+                binding.tvCurrentTemp.text = today.temperature.replace("°", "°C")
+                binding.tvCurrentDesc.text = "Berawan"
+                binding.tvCurrentHumidity.text = today.humidity
+                
+                // Set icon
+                val iconRes = when (today.iconType) {
+                    com.syarhida.sipacar.data.model.WeatherIconType.PAGI -> R.drawable.ic_weather_morning
+                    com.syarhida.sipacar.data.model.WeatherIconType.SIANG -> R.drawable.ic_weather_day
+                    com.syarhida.sipacar.data.model.WeatherIconType.SORE -> R.drawable.ic_weather_evening
+                    com.syarhida.sipacar.data.model.WeatherIconType.MALAM -> R.drawable.ic_weather_night
+                }
+                binding.ivCurrentWeatherIcon.setImageResource(iconRes)
             }
+        }
+        
+        // Observer untuk hourly weather items
+        viewModel.hourlyWeatherItems.observe(this) { items ->
+            hourlyAdapter.submitList(items)
         }
         
         // Observer untuk status loading
         viewModel.isLoading.observe(this) { isLoading ->
             binding.swipeRefreshLayout.isRefreshing = isLoading
-            
-            // Tampilkan atau sembunyikan progress bar
-            if (isLoading) {
-                binding.progressBar.visibility = View.VISIBLE
-                binding.tvLoading.visibility = View.VISIBLE
-            } else {
-                binding.progressBar.visibility = View.GONE
-                binding.tvLoading.visibility = View.GONE
-            }
+            binding.loadingLayout.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
         
         // Observer untuk error message
         viewModel.errorMessage.observe(this) { errorMessage ->
             errorMessage?.let {
                 Toast.makeText(this, it, Toast.LENGTH_LONG).show()
-                binding.tvEmptyState.text = it
-                binding.tvEmptyState.visibility = View.VISIBLE
                 viewModel.clearError()
             }
         }
     }
 }
-

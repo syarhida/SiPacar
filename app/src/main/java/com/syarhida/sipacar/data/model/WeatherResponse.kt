@@ -25,6 +25,9 @@ data class HourlyData(
     val time: List<String>, // Format: "2024-01-01T00:00"
     
     @SerializedName("temperature_2m")
-    val temperature: List<Double> // Suhu dalam Celsius
+    val temperature: List<Double>, // Suhu dalam Celsius
+    
+    @SerializedName("relative_humidity_2m")
+    val humidity: List<Int> // Kelembapan dalam persen
 )
 
