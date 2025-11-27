@@ -99,28 +99,32 @@ class MainActivity : AppCompatActivity() {
      * Setup observers untuk LiveData dari ViewModel
      */
     private fun setupObservers() {
-        // Observer untuk daily weather cards
-        viewModel.dailyWeatherCards.observe(this) { cards ->
-            dailyAdapter.submitList(cards)
-            
-            // Update current weather card dengan data card yang dipilih
-            val selectedCard = cards.find { it.isSelected } ?: cards.firstOrNull()
-            selectedCard?.let { card ->
-                binding.tvCurrentTemp.text = card.temperature.replace("°", "°C")
-                binding.tvCurrentDesc.text = "Berawan"
-                binding.tvCurrentHumidity.text = card.humidity
-                
-                // Update label tanggal yang sedang ditampilkan
-                updateSelectedDateLabel(card)
+        // Observer untuk current weather (jam sekarang)
+        viewModel.currentWeather.observe(this) { currentWeather ->
+            currentWeather?.let { weather ->
+                binding.tvCurrentTemp.text = weather.temperature
+                binding.tvCurrentDesc.text = weather.weatherDesc
+                binding.tvCurrentHumidity.text = weather.humidity
                 
                 // Set icon
-                val iconRes = when (card.iconType) {
+                val iconRes = when (weather.iconType) {
                     com.syarhida.sipacar.data.model.WeatherIconType.PAGI -> R.drawable.ic_weather_morning
                     com.syarhida.sipacar.data.model.WeatherIconType.SIANG -> R.drawable.ic_weather_day
                     com.syarhida.sipacar.data.model.WeatherIconType.SORE -> R.drawable.ic_weather_evening
                     com.syarhida.sipacar.data.model.WeatherIconType.MALAM -> R.drawable.ic_weather_night
                 }
                 binding.ivCurrentWeatherIcon.setImageResource(iconRes)
+            }
+        }
+        
+        // Observer untuk daily weather cards
+        viewModel.dailyWeatherCards.observe(this) { cards ->
+            dailyAdapter.submitList(cards)
+            
+            // Update label tanggal yang sedang ditampilkan
+            val selectedCard = cards.find { it.isSelected } ?: cards.firstOrNull()
+            selectedCard?.let { card ->
+                updateSelectedDateLabel(card)
             }
         }
         

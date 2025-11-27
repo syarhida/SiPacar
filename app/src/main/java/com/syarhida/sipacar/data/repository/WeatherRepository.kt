@@ -141,6 +141,49 @@ class WeatherRepository {
     }
     
     /**
+     * Mengambil data cuaca saat ini (jam sekarang)
+     */
+    suspend fun getCurrentWeather(): Result<HourlyWeatherItem?> {
+        return try {
+            val response = api.getWeatherForecast()
+            
+            if (response.isSuccessful && response.body() != null) {
+                val weatherResponse = response.body()!!
+                val currentDate = getCurrentDate()
+                val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+                
+                // Cari data untuk hari ini dan jam sekarang
+                weatherResponse.hourly.time.forEachIndexed { index, timeString ->
+                    val date = timeString.substring(0, 10)
+                    val hour = timeString.substring(11, 13).toInt()
+                    
+                    if (date == currentDate && hour == currentHour) {
+                        val temp = weatherResponse.hourly.temperature[index]
+                        val humidity = weatherResponse.hourly.humidity[index]
+                        val iconType = getIconTypeFromTime(timeString)
+                        
+                        return Result.success(
+                            HourlyWeatherItem(
+                                time = formatTimeToWIB(timeString),
+                                temperature = "${temp.toInt()}°C",
+                                weatherDesc = getWeatherDescription(iconType),
+                                humidity = "${humidity}%",
+                                iconType = iconType
+                            )
+                        )
+                    }
+                }
+                
+                Result.success(null)
+            } else {
+                Result.failure(Exception("Gagal memuat data cuaca"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    
+    /**
      * Get current date in format YYYY-MM-DD
      */
     private fun getCurrentDate(): String {

@@ -23,6 +23,10 @@ class WeatherViewModel : ViewModel() {
     private val _dailyWeatherCards = MutableLiveData<List<DailyWeatherCard>>()
     val dailyWeatherCards: LiveData<List<DailyWeatherCard>> = _dailyWeatherCards
     
+    // LiveData untuk cuaca saat ini (jam sekarang)
+    private val _currentWeather = MutableLiveData<HourlyWeatherItem?>()
+    val currentWeather: LiveData<HourlyWeatherItem?> = _currentWeather
+    
     // LiveData untuk list cuaca per jam
     private val _hourlyWeatherItems = MutableLiveData<List<HourlyWeatherItem>>()
     val hourlyWeatherItems: LiveData<List<HourlyWeatherItem>> = _hourlyWeatherItems
@@ -47,6 +51,12 @@ class WeatherViewModel : ViewModel() {
             _errorMessage.value = null
             
             try {
+                // Load current weather (jam sekarang)
+                val currentResult = repository.getCurrentWeather()
+                if (currentResult.isSuccess) {
+                    _currentWeather.value = currentResult.getOrNull()
+                }
+                
                 // Load daily weather cards
                 val dailyResult = repository.getDailyWeatherCards(selectedDate)
                 if (dailyResult.isSuccess) {
