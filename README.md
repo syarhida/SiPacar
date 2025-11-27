@@ -84,13 +84,25 @@ com.syarhida.sipacar
 
 Aplikasi ini menggunakan [Open-Meteo Weather API](https://open-meteo.com/):
 ```
-https://api.open-meteo.com/v1/forecast?latitude=-6.2&longitude=106.8&hourly=temperature_2m,relative_humidity_2m&forecast_days=7
+https://api.open-meteo.com/v1/forecast?latitude=-6.2&longitude=106.8&hourly=temperature_2m,relative_humidity_2m,weathercode&forecast_days=7
 ```
 
 **Parameter API:**
 - `latitude=-6.2` & `longitude=106.8` - Koordinat Jakarta
-- `hourly=temperature_2m,relative_humidity_2m` - Data suhu dan kelembapan per jam
+- `hourly=temperature_2m,relative_humidity_2m,weathercode` - Data suhu, kelembapan, dan kode cuaca per jam
 - `forecast_days=7` - Prakiraan 7 hari (diambil 4 hari pertama)
+
+**Weather Code (WMO Weather interpretation codes):**
+- `0` - Cerah ☀️
+- `1, 2` - Cerah Berawan ⛅
+- `3` - Berawan ☁️
+- `45-48` - Berkabut 🌫️
+- `51-57` - Hujan Ringan 🌧️
+- `61-67` - Hujan 🌧️
+- `71-77` - Salju ❄️
+- `80-82` - Hujan Shower 🌦️
+- `85-86` - Salju Shower ❄️
+- `95-99` - Hujan Petir ⛈️
 
 ## 📝 Lisensi
 

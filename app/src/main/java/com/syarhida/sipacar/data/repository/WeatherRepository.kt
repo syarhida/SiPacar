@@ -4,6 +4,7 @@ import com.syarhida.sipacar.data.api.RetrofitInstance
 import com.syarhida.sipacar.data.model.DailyWeatherCard
 import com.syarhida.sipacar.data.model.HourlyWeatherItem
 import com.syarhida.sipacar.data.model.WeatherIconType
+import com.syarhida.sipacar.util.WeatherCodeMapper
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -42,11 +43,13 @@ class WeatherRepository {
                         val avgTemp = indices.map { weatherResponse.hourly.temperature[it] }.average()
                         val avgHumidity = indices.map { weatherResponse.hourly.humidity[it] }.average()
                         
-                        // Tentukan icon berdasarkan jam 12:00 (siang)
+                        // Tentukan weathercode berdasarkan jam 12:00 (siang)
                         val noonIndex = indices.find { 
                             weatherResponse.hourly.time[it].contains("T12:00")
                         } ?: indices[indices.size / 2]
-                        val iconType = getIconTypeFromTime(weatherResponse.hourly.time[noonIndex])
+                        
+                        val weathercode = weatherResponse.hourly.weathercode[noonIndex]
+                        val iconType = getIconTypeFromWeatherCode(weathercode)
                         
                         val isToday = dateString == today
                         val isSelected = dateString == (selectedDate ?: today)
@@ -66,6 +69,7 @@ class WeatherRepository {
                                 dateString = dateString,
                                 temperature = "${avgTemp.toInt()}°",
                                 humidity = "${avgHumidity.toInt()}%",
+                                weathercode = weathercode,
                                 iconType = iconType,
                                 isToday = isToday,
                                 isSelected = isSelected
@@ -117,14 +121,18 @@ class WeatherRepository {
                         if (shouldInclude) {
                             val temp = weatherResponse.hourly.temperature[index]
                             val humidity = weatherResponse.hourly.humidity[index]
-                            val iconType = getIconTypeFromTime(timeString)
+                            val weathercode = weatherResponse.hourly.weathercode[index]
+                            
+                            val iconType = getIconTypeFromWeatherCode(weathercode)
+                            val weatherDesc = WeatherCodeMapper.getWeatherCondition(weathercode)
                             
                             items.add(
                                 HourlyWeatherItem(
                                     time = formatTimeToWIB(timeString),
                                     temperature = "${temp.toInt()}°C",
-                                    weatherDesc = getWeatherDescription(iconType),
+                                    weatherDesc = weatherDesc,
                                     humidity = "${humidity}%",
+                                    weathercode = weathercode,
                                     iconType = iconType
                                 )
                             )
@@ -161,14 +169,18 @@ class WeatherRepository {
                     if (date == currentDate && hour == currentHour) {
                         val temp = weatherResponse.hourly.temperature[index]
                         val humidity = weatherResponse.hourly.humidity[index]
-                        val iconType = getIconTypeFromTime(timeString)
+                        val weathercode = weatherResponse.hourly.weathercode[index]
+                        
+                        val iconType = getIconTypeFromWeatherCode(weathercode)
+                        val weatherDesc = WeatherCodeMapper.getWeatherCondition(weathercode)
                         
                         return Result.success(
                             HourlyWeatherItem(
                                 time = formatTimeToWIB(timeString),
                                 temperature = "${temp.toInt()}°C",
-                                weatherDesc = getWeatherDescription(iconType),
+                                weatherDesc = weatherDesc,
                                 humidity = "${humidity}%",
+                                weathercode = weathercode,
                                 iconType = iconType
                             )
                         )
@@ -268,37 +280,18 @@ class WeatherRepository {
     }
     
     /**
-     * Get deskripsi cuaca berdasarkan icon type
+     * Menentukan tipe icon cuaca berdasarkan weathercode
+     * Menggunakan WeatherCodeMapper untuk mapping icon
      */
-    private fun getWeatherDescription(iconType: WeatherIconType): String {
-        return when (iconType) {
-            WeatherIconType.PAGI -> "Cerah Pagi"
-            WeatherIconType.SIANG -> "Berawan"
-            WeatherIconType.SORE -> "Sore"
-            WeatherIconType.MALAM -> "Malam"
-        }
-    }
-    
-    /**
-     * Menentukan tipe icon cuaca berdasarkan jam
-     */
-    private fun getIconTypeFromTime(isoTime: String): WeatherIconType {
-        try {
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.getDefault())
-            val date = inputFormat.parse(isoTime) ?: return WeatherIconType.SIANG
-            
-            val calendar = Calendar.getInstance()
-            calendar.time = date
-            val hour = calendar.get(Calendar.HOUR_OF_DAY)
-            
-            return when (hour) {
-                in 5..10 -> WeatherIconType.PAGI    // 05:00 - 10:59
-                in 11..14 -> WeatherIconType.SIANG  // 11:00 - 14:59
-                in 15..17 -> WeatherIconType.SORE   // 15:00 - 17:59
-                else -> WeatherIconType.MALAM        // 18:00 - 04:59
-            }
-        } catch (e: Exception) {
-            return WeatherIconType.SIANG
+    private fun getIconTypeFromWeatherCode(weathercode: Int): WeatherIconType {
+        // Mapping weathercode ke WeatherIconType kita
+        return when (weathercode) {
+            0 -> WeatherIconType.PAGI                    // Cerah
+            1, 2 -> WeatherIconType.SIANG                // Cerah Berawan
+            3 -> WeatherIconType.SORE                    // Berawan
+            in 45..48 -> WeatherIconType.SORE            // Berkabut
+            in 51..99 -> WeatherIconType.MALAM           // Hujan/Salju/Petir
+            else -> WeatherIconType.SIANG
         }
     }
 }

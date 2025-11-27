@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Icon Cuaca Berkabut (Fog) 🌫️ -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    
+    <!-- Garis kabut -->
+    <path
+        android:fillColor="#B0BEC5"
+        android:pathData="M4,10h16c0.55,0 1,0.45 1,1s-0.45,1 -1,1h-16c-0.55,0 -1,-0.45 -1,-1s0.45,-1 1,-1z" />
+    
+    <path
+        android:fillColor="#B0BEC5"
+        android:pathData="M3,14h12c0.55,0 1,0.45 1,1s-0.45,1 -1,1h-12c-0.55,0 -1,-0.45 -1,-1s0.45,-1 1,-1z" />
+    
+    <path
+        android:fillColor="#B0BEC5"
+        android:pathData="M7,18h14c0.55,0 1,0.45 1,1s-0.45,1 -1,1h-14c-0.55,0 -1,-0.45 -1,-1s0.45,-1 1,-1z" />
+    
+    <!-- Awan tipis di atas -->
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M18,6c-0.8,0 -1.5,0.2 -2.2,0.6 -0.3,-2.7 -2.6,-4.8 -5.3,-4.8 -2.4,0 -4.4,1.5 -5.1,3.6 -0.2,0 -0.4,0 -0.6,0 -2.1,0 -3.8,1.7 -3.8,3.8h18c1.7,0 3,-1.3 3,-3s-1.3,-3 -3,-3z" />
+</vector>
+

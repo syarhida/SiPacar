@@ -16,7 +16,7 @@ interface WeatherApiService {
      * 
      * @param latitude Latitude Jakarta (-6.2)
      * @param longitude Longitude Jakarta (106.8)
-     * @param hourly Parameter data yang diminta (temperature_2m, relative_humidity_2m)
+     * @param hourly Parameter data yang diminta (temperature_2m, relative_humidity_2m, weathercode)
      * @param forecast_days Jumlah hari prakiraan (default 7)
      * @return Response berisi data prakiraan cuaca
      */
@@ -24,7 +24,7 @@ interface WeatherApiService {
     suspend fun getWeatherForecast(
         @Query("latitude") latitude: Double = -6.2,
         @Query("longitude") longitude: Double = 106.8,
-        @Query("hourly") hourly: String = "temperature_2m,relative_humidity_2m",
+        @Query("hourly") hourly: String = "temperature_2m,relative_humidity_2m,weathercode",
         @Query("forecast_days") forecastDays: Int = 7
     ): Response<WeatherResponse>
 }

@@ -28,6 +28,9 @@ data class HourlyData(
     val temperature: List<Double>, // Suhu dalam Celsius
     
     @SerializedName("relative_humidity_2m")
-    val humidity: List<Int> // Kelembapan dalam persen
+    val humidity: List<Int>, // Kelembapan dalam persen
+    
+    @SerializedName("weathercode")
+    val weathercode: List<Int> // WMO Weather interpretation codes
 )
 

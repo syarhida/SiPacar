@@ -65,6 +65,9 @@ dependencies {
     // SwipeRefreshLayout untuk pull-to-refresh
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     
+    // DrawerLayout untuk navigation drawer
+    implementation 'androidx.drawerlayout:drawerlayout:1.2.0'
+    
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3'

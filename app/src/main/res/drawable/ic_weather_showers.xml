@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Icon Cuaca Hujan Shower (Showers) 🌦️ -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    
+    <!-- Matahari kecil -->
+    <path
+        android:fillColor="#FDB813"
+        android:pathData="M8,4c-1.1,0 -2,0.9 -2,2s0.9,2 2,2 2,-0.9 2,-2 -0.9,-2 -2,-2z" />
+    
+    <!-- Awan -->
+    <path
+        android:fillColor="#90CAF9"
+        android:pathData="M18,10c-0.8,0 -1.5,0.2 -2.2,0.6 -0.3,-2.7 -2.6,-4.8 -5.3,-4.8 -1.5,0 -2.8,0.6 -3.8,1.5 0.3,0.5 0.5,1.1 0.5,1.7 0,0.3 0,0.5 -0.1,0.8 -0.2,0 -0.4,0 -0.6,0 -2.1,0 -3.8,1.7 -3.8,3.8s1.7,3.8 3.8,3.8h11.5c2.5,0 4.5,-2 4.5,-4.5s-2,-4.5 -4.5,-4.5z" />
+    
+    <!-- Tetesan hujan shower -->
+    <path
+        android:fillColor="#42A5F5"
+        android:pathData="M8,18l1,2.5M12,18l1,2.5M16,18l1,2.5" />
+</vector>
+

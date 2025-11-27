@@ -9,7 +9,8 @@ data class DailyWeatherCard(
     val dateString: String,        // e.g., "2024-11-27" (untuk filtering)
     val temperature: String,       // e.g., "28°"
     val humidity: String,          // e.g., "74%"
-    val iconType: WeatherIconType, // Icon cuaca
+    val weathercode: Int,          // WMO Weather code
+    val iconType: WeatherIconType, // Icon cuaca (backward compatibility)
     val isToday: Boolean = false,  // Flag untuk styling hari ini
     val isSelected: Boolean = false // Flag untuk styling card yang dipilih
 )
@@ -22,7 +23,8 @@ data class HourlyWeatherItem(
     val temperature: String,       // e.g., "32°C"
     val weatherDesc: String,       // e.g., "Berawan"
     val humidity: String,          // e.g., "56%"
-    val iconType: WeatherIconType  // Icon cuaca
+    val weathercode: Int,          // WMO Weather code
+    val iconType: WeatherIconType  // Icon cuaca (backward compatibility)
 )
 
 /**

@@ -1,10 +1,14 @@
 package com.syarhida.sipacar.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.syarhida.sipacar.R
 import com.syarhida.sipacar.databinding.ActivityMainBinding
@@ -31,6 +35,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         
+        // Setup Navigation Drawer
+        setupNavigationDrawer()
+        
         // Setup RecyclerViews
         setupRecyclerViews()
         
@@ -45,6 +52,50 @@ class MainActivity : AppCompatActivity() {
         
         // Muat data cuaca pertama kali
         viewModel.loadWeatherData()
+    }
+    
+    /**
+     * Setup Navigation Drawer
+     */
+    private fun setupNavigationDrawer() {
+        // Pastikan drawer tertutup saat pertama kali
+        binding.drawerLayout.closeDrawer(GravityCompat.START)
+        
+        // Menu icon click listener
+        binding.ivMenu.setOnClickListener {
+            binding.drawerLayout.openDrawer(GravityCompat.START)
+        }
+        
+        // GitHub link click listener
+        val navDrawer = findViewById<View>(R.id.navDrawer)
+        val layoutGithub = navDrawer.findViewById<View>(R.id.layoutGithub)
+        layoutGithub?.setOnClickListener {
+            openGithubRepository()
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+        }
+    }
+    
+    /**
+     * Open GitHub repository in browser
+     */
+    private fun openGithubRepository() {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/syarhida/SiPacar"))
+            startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(this, "Tidak dapat membuka browser", Toast.LENGTH_SHORT).show()
+        }
+    }
+    
+    /**
+     * Handle back press - close drawer if open
+     */
+    override fun onBackPressed() {
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
     }
     
     /**
@@ -106,13 +157,8 @@ class MainActivity : AppCompatActivity() {
                 binding.tvCurrentDesc.text = weather.weatherDesc
                 binding.tvCurrentHumidity.text = weather.humidity
                 
-                // Set icon
-                val iconRes = when (weather.iconType) {
-                    com.syarhida.sipacar.data.model.WeatherIconType.PAGI -> R.drawable.ic_weather_morning
-                    com.syarhida.sipacar.data.model.WeatherIconType.SIANG -> R.drawable.ic_weather_day
-                    com.syarhida.sipacar.data.model.WeatherIconType.SORE -> R.drawable.ic_weather_evening
-                    com.syarhida.sipacar.data.model.WeatherIconType.MALAM -> R.drawable.ic_weather_night
-                }
+                // Set icon berdasarkan weathercode
+                val iconRes = com.syarhida.sipacar.util.WeatherCodeMapper.getWeatherIcon(weather.weathercode)
                 binding.ivCurrentWeatherIcon.setImageResource(iconRes)
             }
         }

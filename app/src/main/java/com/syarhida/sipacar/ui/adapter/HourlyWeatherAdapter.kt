@@ -5,10 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.syarhida.sipacar.R
 import com.syarhida.sipacar.data.model.HourlyWeatherItem
-import com.syarhida.sipacar.data.model.WeatherIconType
 import com.syarhida.sipacar.databinding.ItemHourlyWeatherBinding
+import com.syarhida.sipacar.util.WeatherCodeMapper
 
 /**
  * Adapter untuk list cuaca per jam
@@ -33,13 +32,8 @@ class HourlyWeatherAdapter : ListAdapter<HourlyWeatherItem, HourlyWeatherAdapter
     ) : RecyclerView.ViewHolder(binding.root) {
         
         fun bind(item: HourlyWeatherItem) {
-            // Set icon cuaca
-            val iconRes = when (item.iconType) {
-                WeatherIconType.PAGI -> R.drawable.ic_weather_morning
-                WeatherIconType.SIANG -> R.drawable.ic_weather_day
-                WeatherIconType.SORE -> R.drawable.ic_weather_evening
-                WeatherIconType.MALAM -> R.drawable.ic_weather_night
-            }
+            // Set icon cuaca berdasarkan weathercode
+            val iconRes = WeatherCodeMapper.getWeatherIcon(item.weathercode)
             binding.ivWeatherIcon.setImageResource(iconRes)
             
             // Set text
