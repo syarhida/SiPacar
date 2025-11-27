@@ -106,11 +106,12 @@ class WeatherRepository {
                     
                     // Filter berdasarkan tanggal yang dipilih
                     if (date == dateToShow) {
-                        // Jika hari ini dan tidak ada targetDate (default), filter dari jam sekarang
-                        val shouldInclude = if (date == currentDate && targetDate == null) {
+                        // Jika hari ini (baik default maupun dipilih), filter dari jam sekarang
+                        // Jika hari lain, tampilkan semua jam (00:00-23:00)
+                        val shouldInclude = if (date == currentDate) {
                             hour >= currentHour // Hari ini: dari jam sekarang
                         } else {
-                            true // Hari lain atau dipilih: semua jam (00:00-23:00)
+                            true // Hari lain: semua jam (00:00-23:00)
                         }
                         
                         if (shouldInclude) {
