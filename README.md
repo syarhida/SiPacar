@@ -7,10 +7,11 @@ Aplikasi Android untuk menampilkan prakiraan cuaca Jakarta dengan interface yang
 **SiPacar** (Sistem Prakiraan Cuaca Ringkas) adalah aplikasi prakiraan cuaca untuk wilayah Jakarta yang menampilkan informasi cuaca per jam dengan antarmuka yang clean dan mudah digunakan.
 
 ## 📸 Preview
-
-  <img src="assets/preview-1.jpeg" alt="Preview 1" width="30%" style="margin-right: 5px;">
-  <img src="assets/preview-2.jpeg" alt="Preview 2" width="30%" style="margin-right: 5px;">
-  <img src="assets/preview-3.jpeg" alt="Preview 3" width="30%">
+<p>
+  <img src="assets/preview-1.jpeg" alt="Preview 1" width="20%" style="margin-right: 5px;">
+  <img src="assets/preview-2.jpeg" alt="Preview 2" width="20%" style="margin-right: 5px;">
+  <img src="assets/preview-3.jpeg" alt="Preview 3" width="20%">
+</p>
 
 ## ⬇️ Download
 
