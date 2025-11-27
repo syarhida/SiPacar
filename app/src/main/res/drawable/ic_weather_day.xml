@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Icon Cuaca Siang (Sun) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    
+    <!-- Matahari Penuh -->
+    <path
+        android:fillColor="#f59e0b"
+        android:pathData="M12,3c-4.97,0 -9,4.03 -9,9s4.03,9 9,9 9,-4.03 9,-9 -4.03,-9 -9,-9z" />
+    
+    <!-- Sinar-sinar -->
+    <path
+        android:fillColor="#f59e0b"
+        android:strokeWidth="1.5"
+        android:strokeColor="#f59e0b"
+        android:pathData="M12,1L12,3M12,21L12,23M3.5,3.5L4.9,4.9M19.1,19.1L20.5,20.5M1,12L3,12M21,12L23,12M3.5,20.5L4.9,19.1M19.1,4.9L20.5,3.5" />
+</vector>
+

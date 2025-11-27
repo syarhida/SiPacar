@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Warna Tema SiPacar (Putih & Biru) -->
+    
+    <!-- Primary Color (Biru) -->
+    <color name="primary">#3b82f6</color>
+    <color name="primary_dark">#2563eb</color>
+    <color name="primary_light">#60a5fa</color>
+    
+    <!-- Background (Putih) -->
+    <color name="background">#FFFFFF</color>
+    <color name="surface">#FFFFFF</color>
+    
+    <!-- Text Colors -->
+    <color name="text_primary">#333333</color>
+    <color name="text_secondary">#666666</color>
+    
+    <!-- Accent Colors -->
+    <color name="accent">#3b82f6</color>
+    
+    <!-- System Colors -->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+</resources>

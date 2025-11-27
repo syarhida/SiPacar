@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Nama Aplikasi -->
+    <string name="app_name">SiPacar</string>
+    
+    <!-- Toolbar -->
+    <string name="toolbar_title">SiPacar - Jakarta</string>
+    <string name="toolbar_subtitle">Sistem Prakiraan Cuaca Ringkas</string>
+    
+    <!-- Pesan Loading -->
+    <string name="loading_message">Memuat data cuaca…</string>
+    
+    <!-- Pesan Error -->
+    <string name="error_message">Gagal memuat data. Periksa koneksi internet.</string>
+    
+    <!-- Content Description -->
+    <string name="weather_icon_description">Icon cuaca</string>
+    
+    <!-- Empty State -->
+    <string name="empty_state">Tidak ada data cuaca tersedia</string>
+</resources>

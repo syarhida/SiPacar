@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-extraction-rules>
+    <cloud-backup>
+        <!-- Exclude specific files or directories from cloud backup -->
+        <!-- Add your data extraction rules here -->
+    </cloud-backup>
+</data-extraction-rules>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Icon Cuaca Sore (Sunset) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    
+    <!-- Matahari Sore (agak rendah) -->
+    <path
+        android:fillColor="#f97316"
+        android:pathData="M12,5a7,7 0,0 1,7 7,7 7,0 0,1 -7,7 7,7 0,0 1,-7 -7,7 7,0 0,1 7,-7z" />
+    
+    <!-- Horizon Line -->
+    <path
+        android:fillColor="#fb923c"
+        android:pathData="M2,19h20v2h-20z" />
+    
+    <!-- Sinar Sore -->
+    <path
+        android:fillColor="#f97316"
+        android:pathData="M12,2v2M5.64,5.64l1.41,1.41M3,12h2M5.64,18.36l1.41,-1.41M18.36,18.36l-1.41,-1.41M19,12h2M18.36,5.64l-1.41,1.41" />
+</vector>
+
