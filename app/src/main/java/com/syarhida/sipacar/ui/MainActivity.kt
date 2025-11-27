@@ -157,9 +157,9 @@ class MainActivity : AppCompatActivity() {
                 binding.tvCurrentDesc.text = weather.weatherDesc
                 binding.tvCurrentHumidity.text = weather.humidity
                 
-                // Set icon berdasarkan weathercode
-                val iconRes = com.syarhida.sipacar.util.WeatherCodeMapper.getWeatherIcon(weather.weathercode)
-                binding.ivCurrentWeatherIcon.setImageResource(iconRes)
+                // Set icon emoji berdasarkan weathercode
+                val iconEmoji = com.syarhida.sipacar.util.WeatherCodeMapper.getWeatherIcon(weather.weathercode)
+                binding.tvCurrentWeatherIcon.text = iconEmoji
             }
         }
         

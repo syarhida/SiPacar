@@ -18,13 +18,13 @@
         android:padding="12dp"
         android:gravity="center">
 
-        <!-- Icon Cuaca -->
-        <ImageView
-            android:id="@+id/ivWeatherIcon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:contentDescription="@string/weather_icon_description"
-            tools:src="@drawable/ic_weather_day" />
+        <!-- Icon Cuaca (Emoji) -->
+        <TextView
+            android:id="@+id/tvWeatherIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="40sp"
+            tools:text="☀️" />
 
         <!-- Tanggal/Label (Hari Ini, Besok, dll) -->
         <TextView

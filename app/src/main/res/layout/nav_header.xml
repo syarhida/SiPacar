@@ -36,11 +36,33 @@
         android:textSize="14sp"
         android:gravity="center" />
 
+    <!-- Developer Label -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/by"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:alpha="0.8"
+        android:gravity="center" />
+
+    <!-- Developer Name -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/developer_name"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:gravity="center" />
+
     <!-- Divider -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:background="#80FFFFFF" />
 
 </LinearLayout>

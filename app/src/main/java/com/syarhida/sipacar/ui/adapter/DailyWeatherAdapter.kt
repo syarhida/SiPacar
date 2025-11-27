@@ -37,9 +37,9 @@ class DailyWeatherAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         
         fun bind(item: DailyWeatherCard) {
-            // Set icon cuaca berdasarkan weathercode
-            val iconRes = WeatherCodeMapper.getWeatherIcon(item.weathercode)
-            binding.ivWeatherIcon.setImageResource(iconRes)
+            // Set icon cuaca emoji berdasarkan weathercode
+            val iconEmoji = WeatherCodeMapper.getWeatherIcon(item.weathercode)
+            binding.tvWeatherIcon.text = iconEmoji
             
             // Set text
             binding.tvDate.text = item.date
