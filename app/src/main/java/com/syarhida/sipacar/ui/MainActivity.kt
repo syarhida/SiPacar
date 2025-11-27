@@ -155,12 +155,12 @@ class MainActivity : AppCompatActivity() {
         if (card.isToday) {
             // Hari ini: tampilkan dari jam sekarang
             val currentTime = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
-            binding.tvSelectedDate.text = "Prakiraan Hari Ini"
-            binding.tvDateInfo.text = "Menampilkan dari jam $currentTime sampai 23:00"
+            binding.tvSelectedDate.text = "Prakiraan Cuaca Hari Ini"
+            binding.tvDateInfo.text = "Menampilkan prakiraan dari jam $currentTime sampai 23:00"
         } else {
             // Hari lain: tampilkan semua jam
-            binding.tvSelectedDate.text = "Prakiraan ${card.date}"
-            binding.tvDateInfo.text = "Menampilkan dari jam 00:00 sampai 23:00"
+            binding.tvSelectedDate.text = "Prakiraan Cuaca ${card.date}"
+            binding.tvDateInfo.text = "Menampilkan prakiraan dari jam 00:00 sampai 23:00"
         }
     }
 }

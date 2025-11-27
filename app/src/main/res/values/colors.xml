@@ -25,4 +25,7 @@
     <!-- System Colors -->
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    
+    <!-- Launcher Icon -->
+    <color name="ic_launcher_background">#3b82f6</color>
 </resources>
