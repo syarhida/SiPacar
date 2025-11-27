@@ -3,6 +3,8 @@ package com.syarhida.sipacar.ui
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -28,6 +30,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dailyAdapter: DailyWeatherAdapter
     private lateinit var hourlyAdapter: HourlyWeatherAdapter
     
+    // Handler untuk update jam setiap detik
+    private val timeUpdateHandler = Handler(Looper.getMainLooper())
+    private val timeUpdateRunnable = object : Runnable {
+        override fun run() {
+            updateCurrentTime()
+            timeUpdateHandler.postDelayed(this, 1000) // Update setiap 1 detik
+        }
+    }
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
@@ -50,8 +61,45 @@ class MainActivity : AppCompatActivity() {
         // Update waktu saat ini
         updateCurrentTime()
         
+        // Start auto-update waktu setiap detik
+        startTimeUpdates()
+        
         // Muat data cuaca pertama kali
         viewModel.loadWeatherData()
+    }
+    
+    override fun onResume() {
+        super.onResume()
+        // Resume update waktu saat app aktif lagi
+        stopTimeUpdates() // Stop dulu untuk menghindari dobel
+        startTimeUpdates()
+    }
+    
+    override fun onPause() {
+        super.onPause()
+        // Stop update waktu saat app di-pause untuk hemat resource
+        stopTimeUpdates()
+    }
+    
+    override fun onDestroy() {
+        super.onDestroy()
+        // Stop update waktu saat activity destroy
+        stopTimeUpdates()
+    }
+    
+    /**
+     * Start auto-update waktu setiap detik
+     */
+    private fun startTimeUpdates() {
+        timeUpdateHandler.removeCallbacks(timeUpdateRunnable) // Pastikan tidak ada callback lama
+        timeUpdateHandler.post(timeUpdateRunnable)
+    }
+    
+    /**
+     * Stop auto-update waktu
+     */
+    private fun stopTimeUpdates() {
+        timeUpdateHandler.removeCallbacks(timeUpdateRunnable)
     }
     
     /**
