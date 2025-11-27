@@ -8,15 +8,15 @@ Aplikasi Android untuk menampilkan prakiraan cuaca Jakarta dengan interface yang
 
 ## 📸 Preview
 
-![Preview](assets/preview-1.jpeg) ![Preview](assets/preview-2.jpeg) ![Preview](assets/preview-3.jpeg)
+  <img src="assets/preview-1.jpeg" alt="Preview 1" width="30%" style="margin-right: 5px;">
+  <img src="assets/preview-2.jpeg" alt="Preview 2" width="30%" style="margin-right: 5px;">
+  <img src="assets/preview-3.jpeg" alt="Preview 3" width="30%">
 
 ## ⬇️ Download
 
 Initial release (v1.0) sudah dapat di unduh
 
 [![GitHub release (v1.0.0)](https://img.shields.io/badge/Download-v1.0.0-0077c9?style=for-the-badge&logo=android)](https://github.com/syarhida/SiPacar/releases/tag/v1.0)
-
-
 
 ### Fitur Utama
 
