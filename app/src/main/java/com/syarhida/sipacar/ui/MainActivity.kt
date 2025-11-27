@@ -51,8 +51,12 @@ class MainActivity : AppCompatActivity() {
      * Setup RecyclerViews untuk daily dan hourly forecast
      */
     private fun setupRecyclerViews() {
-        // Daily forecast (horizontal)
-        dailyAdapter = DailyWeatherAdapter()
+        // Daily forecast (horizontal) dengan click listener
+        dailyAdapter = DailyWeatherAdapter { dateString ->
+            // Ketika card diklik, update data hourly untuk tanggal tersebut
+            viewModel.selectDate(dateString)
+        }
+        
         binding.rvDailyForecast.apply {
             adapter = dailyAdapter
             layoutManager = LinearLayoutManager(
@@ -99,15 +103,15 @@ class MainActivity : AppCompatActivity() {
         viewModel.dailyWeatherCards.observe(this) { cards ->
             dailyAdapter.submitList(cards)
             
-            // Update current weather card dengan data hari ini (card pertama)
-            if (cards.isNotEmpty()) {
-                val today = cards[0]
-                binding.tvCurrentTemp.text = today.temperature.replace("°", "°C")
+            // Update current weather card dengan data card yang dipilih
+            val selectedCard = cards.find { it.isSelected } ?: cards.firstOrNull()
+            selectedCard?.let { card ->
+                binding.tvCurrentTemp.text = card.temperature.replace("°", "°C")
                 binding.tvCurrentDesc.text = "Berawan"
-                binding.tvCurrentHumidity.text = today.humidity
+                binding.tvCurrentHumidity.text = card.humidity
                 
                 // Set icon
-                val iconRes = when (today.iconType) {
+                val iconRes = when (card.iconType) {
                     com.syarhida.sipacar.data.model.WeatherIconType.PAGI -> R.drawable.ic_weather_morning
                     com.syarhida.sipacar.data.model.WeatherIconType.SIANG -> R.drawable.ic_weather_day
                     com.syarhida.sipacar.data.model.WeatherIconType.SORE -> R.drawable.ic_weather_evening

@@ -4,25 +4,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardView"
-    android:layout_width="140dp"
+    android:layout_width="100dp"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="12dp"
+    android:layout_marginEnd="8dp"
     app:cardBackgroundColor="@color/card_background"
-    app:cardCornerRadius="16dp"
+    app:cardCornerRadius="12dp"
     app:cardElevation="2dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
+        android:padding="12dp"
         android:gravity="center">
 
         <!-- Icon Cuaca -->
         <ImageView
             android:id="@+id/ivWeatherIcon"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:contentDescription="@string/weather_icon_description"
             tools:src="@drawable/ic_weather_day" />
 
@@ -31,9 +31,9 @@
             android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:textColor="@color/text_primary"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             tools:text="Hari Ini" />
 
@@ -42,9 +42,9 @@
             android:id="@+id/tvTemperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="2dp"
             android:textColor="@color/text_primary"
-            android:textSize="28sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             tools:text="28°" />
 
@@ -53,9 +53,9 @@
             android:id="@+id/tvHumidity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="2dp"
             android:textColor="@color/text_secondary"
-            android:textSize="14sp"
+            android:textSize="12sp"
             tools:text="74%" />
 
     </LinearLayout>

@@ -6,10 +6,12 @@ package com.syarhida.sipacar.data.model
 data class DailyWeatherCard(
     val date: String,              // e.g., "Hari Ini", "Besok", "29 November"
     val dayName: String,           // e.g., "Kamis", "Jumat"
+    val dateString: String,        // e.g., "2024-11-27" (untuk filtering)
     val temperature: String,       // e.g., "28°"
     val humidity: String,          // e.g., "74%"
     val iconType: WeatherIconType, // Icon cuaca
-    val isToday: Boolean = false   // Flag untuk styling hari ini
+    val isToday: Boolean = false,  // Flag untuk styling hari ini
+    val isSelected: Boolean = false // Flag untuk styling card yang dipilih
 )
 
 /**

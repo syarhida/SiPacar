@@ -8,6 +8,8 @@ import com.syarhida.sipacar.data.model.DailyWeatherCard
 import com.syarhida.sipacar.data.model.HourlyWeatherItem
 import com.syarhida.sipacar.data.repository.WeatherRepository
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * ViewModel untuk mengelola data cuaca
@@ -33,6 +35,9 @@ class WeatherViewModel : ViewModel() {
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> = _errorMessage
     
+    // State untuk tanggal yang dipilih (default: hari ini)
+    private var selectedDate: String? = null
+    
     /**
      * Memuat data prakiraan cuaca dari API
      */
@@ -43,15 +48,15 @@ class WeatherViewModel : ViewModel() {
             
             try {
                 // Load daily weather cards
-                val dailyResult = repository.getDailyWeatherCards()
+                val dailyResult = repository.getDailyWeatherCards(selectedDate)
                 if (dailyResult.isSuccess) {
                     _dailyWeatherCards.value = dailyResult.getOrNull() ?: emptyList()
                 } else {
                     _errorMessage.value = "Gagal memuat data. Periksa koneksi internet."
                 }
                 
-                // Load hourly weather items
-                val hourlyResult = repository.getHourlyWeatherItems()
+                // Load hourly weather items untuk tanggal yang dipilih
+                val hourlyResult = repository.getHourlyWeatherItems(selectedDate)
                 if (hourlyResult.isSuccess) {
                     _hourlyWeatherItems.value = hourlyResult.getOrNull() ?: emptyList()
                 } else {
@@ -64,6 +69,22 @@ class WeatherViewModel : ViewModel() {
                 _isLoading.value = false
             }
         }
+    }
+    
+    /**
+     * Set tanggal yang dipilih dan reload hourly data
+     */
+    fun selectDate(dateString: String) {
+        selectedDate = dateString
+        loadWeatherData()
+    }
+    
+    /**
+     * Get current date in format YYYY-MM-DD
+     */
+    private fun getCurrentDate(): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return sdf.format(Date())
     }
     
     /**

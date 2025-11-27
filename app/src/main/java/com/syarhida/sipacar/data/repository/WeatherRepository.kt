@@ -18,7 +18,7 @@ class WeatherRepository {
     /**
      * Mengambil data card cuaca harian (4 hari ke depan)
      */
-    suspend fun getDailyWeatherCards(): Result<List<DailyWeatherCard>> {
+    suspend fun getDailyWeatherCards(selectedDate: String? = null): Result<List<DailyWeatherCard>> {
         return try {
             val response = api.getWeatherForecast()
             
@@ -49,6 +49,8 @@ class WeatherRepository {
                         val iconType = getIconTypeFromTime(weatherResponse.hourly.time[noonIndex])
                         
                         val isToday = dateString == today
+                        val isSelected = dateString == (selectedDate ?: today)
+                        
                         val dateLabel = when {
                             isToday -> "Hari Ini"
                             index == 1 -> "Besok"
@@ -61,10 +63,12 @@ class WeatherRepository {
                             DailyWeatherCard(
                                 date = dateLabel,
                                 dayName = dayName,
+                                dateString = dateString,
                                 temperature = "${avgTemp.toInt()}°",
                                 humidity = "${avgHumidity.toInt()}%",
                                 iconType = iconType,
-                                isToday = isToday
+                                isToday = isToday,
+                                isSelected = isSelected
                             )
                         )
                     }
@@ -80,11 +84,11 @@ class WeatherRepository {
     }
     
     /**
-     * Mengambil data cuaca per jam
-     * Untuk hari ini: dari jam sekarang sampai 23:00
-     * Untuk hari lain: dari 00:00 sampai 23:00
+     * Mengambil data cuaca per jam untuk tanggal tertentu
+     * 
+     * @param targetDate Tanggal target (format "2024-11-27"), null untuk hari ini
      */
-    suspend fun getHourlyWeatherItems(): Result<List<HourlyWeatherItem>> {
+    suspend fun getHourlyWeatherItems(targetDate: String? = null): Result<List<HourlyWeatherItem>> {
         return try {
             val response = api.getWeatherForecast()
             
@@ -94,32 +98,36 @@ class WeatherRepository {
                 
                 val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
                 val currentDate = getCurrentDate()
+                val dateToShow = targetDate ?: currentDate
                 
                 weatherResponse.hourly.time.forEachIndexed { index, timeString ->
                     val date = timeString.substring(0, 10)
                     val hour = timeString.substring(11, 13).toInt()
                     
-                    // Filter: untuk hari ini (jam sekarang sampai 23:00) atau hari lain (00:00-23:00)
-                    val shouldInclude = if (date == currentDate) {
-                        hour >= currentHour // Hari ini: dari jam sekarang
-                    } else {
-                        true // Hari lain: semua jam
-                    }
-                    
-                    if (shouldInclude) {
-                        val temp = weatherResponse.hourly.temperature[index]
-                        val humidity = weatherResponse.hourly.humidity[index]
-                        val iconType = getIconTypeFromTime(timeString)
+                    // Filter berdasarkan tanggal yang dipilih
+                    if (date == dateToShow) {
+                        // Jika hari ini dan tidak ada targetDate (default), filter dari jam sekarang
+                        val shouldInclude = if (date == currentDate && targetDate == null) {
+                            hour >= currentHour // Hari ini: dari jam sekarang
+                        } else {
+                            true // Hari lain atau dipilih: semua jam (00:00-23:00)
+                        }
                         
-                        items.add(
-                            HourlyWeatherItem(
-                                time = formatTimeToWIB(timeString),
-                                temperature = "${temp.toInt()}°C",
-                                weatherDesc = getWeatherDescription(iconType),
-                                humidity = "${humidity}%",
-                                iconType = iconType
+                        if (shouldInclude) {
+                            val temp = weatherResponse.hourly.temperature[index]
+                            val humidity = weatherResponse.hourly.humidity[index]
+                            val iconType = getIconTypeFromTime(timeString)
+                            
+                            items.add(
+                                HourlyWeatherItem(
+                                    time = formatTimeToWIB(timeString),
+                                    temperature = "${temp.toInt()}°C",
+                                    weatherDesc = getWeatherDescription(iconType),
+                                    humidity = "${humidity}%",
+                                    iconType = iconType
+                                )
                             )
-                        )
+                        }
                     }
                 }
                 
@@ -168,18 +176,18 @@ class WeatherRepository {
             
             val day = calendar.get(Calendar.DAY_OF_MONTH)
             val month = when (calendar.get(Calendar.MONTH)) {
-                Calendar.JANUARY -> "Januari"
-                Calendar.FEBRUARY -> "Februari"
-                Calendar.MARCH -> "Maret"
-                Calendar.APRIL -> "April"
+                Calendar.JANUARY -> "Jan"
+                Calendar.FEBRUARY -> "Feb"
+                Calendar.MARCH -> "Mar"
+                Calendar.APRIL -> "Apr"
                 Calendar.MAY -> "Mei"
-                Calendar.JUNE -> "Juni"
-                Calendar.JULY -> "Juli"
-                Calendar.AUGUST -> "Agustus"
-                Calendar.SEPTEMBER -> "September"
-                Calendar.OCTOBER -> "Oktober"
-                Calendar.NOVEMBER -> "November"
-                Calendar.DECEMBER -> "Desember"
+                Calendar.JUNE -> "Jun"
+                Calendar.JULY -> "Jul"
+                Calendar.AUGUST -> "Agt"
+                Calendar.SEPTEMBER -> "Sep"
+                Calendar.OCTOBER -> "Okt"
+                Calendar.NOVEMBER -> "Nov"
+                Calendar.DECEMBER -> "Des"
                 else -> ""
             }
             

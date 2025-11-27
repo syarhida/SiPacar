@@ -14,7 +14,9 @@ import com.syarhida.sipacar.databinding.ItemDailyWeatherBinding
 /**
  * Adapter untuk card cuaca harian (4 hari ke depan)
  */
-class DailyWeatherAdapter : ListAdapter<DailyWeatherCard, DailyWeatherAdapter.ViewHolder>(DiffCallback()) {
+class DailyWeatherAdapter(
+    private val onCardClick: (String) -> Unit // Callback dengan dateString
+) : ListAdapter<DailyWeatherCard, DailyWeatherAdapter.ViewHolder>(DiffCallback()) {
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemDailyWeatherBinding.inflate(
@@ -22,7 +24,7 @@ class DailyWeatherAdapter : ListAdapter<DailyWeatherCard, DailyWeatherAdapter.Vi
             parent,
             false
         )
-        return ViewHolder(binding)
+        return ViewHolder(binding, onCardClick)
     }
     
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -30,7 +32,8 @@ class DailyWeatherAdapter : ListAdapter<DailyWeatherCard, DailyWeatherAdapter.Vi
     }
     
     class ViewHolder(
-        private val binding: ItemDailyWeatherBinding
+        private val binding: ItemDailyWeatherBinding,
+        private val onCardClick: (String) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         
         fun bind(item: DailyWeatherCard) {
@@ -48,8 +51,9 @@ class DailyWeatherAdapter : ListAdapter<DailyWeatherCard, DailyWeatherAdapter.Vi
             binding.tvTemperature.text = item.temperature
             binding.tvHumidity.text = item.humidity
             
-            // Styling khusus untuk hari ini
-            if (item.isToday) {
+            // Styling berdasarkan state (selected atau tidak)
+            if (item.isSelected) {
+                // Card yang dipilih: background biru
                 binding.cardView.setCardBackgroundColor(
                     ContextCompat.getColor(binding.root.context, R.color.primary)
                 )
@@ -63,6 +67,7 @@ class DailyWeatherAdapter : ListAdapter<DailyWeatherCard, DailyWeatherAdapter.Vi
                     ContextCompat.getColor(binding.root.context, android.R.color.white)
                 )
             } else {
+                // Card tidak dipilih: background light blue
                 binding.cardView.setCardBackgroundColor(
                     ContextCompat.getColor(binding.root.context, R.color.card_background)
                 )
@@ -76,12 +81,17 @@ class DailyWeatherAdapter : ListAdapter<DailyWeatherCard, DailyWeatherAdapter.Vi
                     ContextCompat.getColor(binding.root.context, R.color.text_secondary)
                 )
             }
+            
+            // Set click listener
+            binding.root.setOnClickListener {
+                onCardClick(item.dateString)
+            }
         }
     }
     
     private class DiffCallback : DiffUtil.ItemCallback<DailyWeatherCard>() {
         override fun areItemsTheSame(oldItem: DailyWeatherCard, newItem: DailyWeatherCard): Boolean {
-            return oldItem.date == newItem.date
+            return oldItem.dateString == newItem.dateString
         }
         
         override fun areContentsTheSame(oldItem: DailyWeatherCard, newItem: DailyWeatherCard): Boolean {
@@ -89,4 +99,3 @@ class DailyWeatherAdapter : ListAdapter<DailyWeatherCard, DailyWeatherAdapter.Vi
         }
     }
 }
-
